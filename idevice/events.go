@@ -19,6 +19,8 @@ import (
 
 	"github.com/mattn/go-pointer"
 	"github.com/olebedev/emitter"
+
+	"github.com/pauldotknopf/goidevice/common"
 )
 
 var (
@@ -73,7 +75,7 @@ func Subscribe() error {
 	}
 
 	callbackPointer = pointer.Save(&callback{})
-	err := resultToError(C._device_callback(callbackPointer))
+	err := common.ResultToError(C._device_callback(callbackPointer))
 
 	if err == nil {
 		isSubscribed = true
@@ -94,7 +96,7 @@ func Unsubscribe() error {
 		return nil
 	}
 
-	err := resultToError(C.idevice_event_unsubscribe())
+	err := common.ResultToError(C.idevice_event_unsubscribe())
 
 	if err == nil {
 		isSubscribed = false

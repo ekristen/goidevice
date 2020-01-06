@@ -9,6 +9,7 @@ import (
 	"unsafe"
 
 	"github.com/pauldotknopf/goidevice/idevice"
+	"github.com/pauldotknopf/goidevice/common"
 )
 
 // Client is a lockdown client
@@ -29,7 +30,7 @@ func NewClient(device idevice.Device, label string) (Client, error) {
 	defer C.free(unsafe.Pointer(labelC))
 
 	var p C.lockdownd_client_t
-	err := resultToError(C.lockdownd_client_new((C.idevice_t)(idevice.GetPointer(device)), &p, labelC))
+	err := common.ResultToError(C.lockdownd_client_new((C.idevice_t)(idevice.GetPointer(device)), &p, labelC))
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +43,7 @@ func NewClientWithHandshake(device idevice.Device, label string) (Client, error)
 	defer C.free(unsafe.Pointer(labelC))
 
 	var p C.lockdownd_client_t
-	err := resultToError(C.lockdownd_client_new_with_handshake((C.idevice_t)(idevice.GetPointer(device)), &p, labelC))
+	err := common.ResultToError(C.lockdownd_client_new_with_handshake((C.idevice_t)(idevice.GetPointer(device)), &p, labelC))
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +52,7 @@ func NewClientWithHandshake(device idevice.Device, label string) (Client, error)
 
 func (s *client) Type() (string, error) {
 	var p *C.char
-	err := resultToError(C.lockdownd_query_type(s.p, &p))
+	err := common.ResultToError(C.lockdownd_query_type(s.p, &p))
 	var result string
 	if p != nil {
 		result = C.GoString(p)
@@ -61,12 +62,12 @@ func (s *client) Type() (string, error) {
 }
 
 func (s *client) Pair() error {
-	return resultToError(C.lockdownd_pair(s.p, nil))
+	return common.ResultToError(C.lockdownd_pair(s.p, nil))
 }
 
 func (s *client) DeviceName() (string, error) {
 	var p *C.char
-	err := resultToError(C.lockdownd_get_device_name(s.p, &p))
+	err := common.ResultToError(C.lockdownd_get_device_name(s.p, &p))
 	var result string
 	if p != nil {
 		result = C.GoString(p)
@@ -76,7 +77,7 @@ func (s *client) DeviceName() (string, error) {
 }
 
 func (s *client) Close() error {
-	err := resultToError(C.lockdownd_client_free(s.p))
+	err := common.ResultToError(C.lockdownd_client_free(s.p))
 	if err == nil {
 		s.p = nil
 	}

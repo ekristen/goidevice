@@ -4,7 +4,12 @@ package idevice
 // #include <stdlib.h>
 // #include <libimobiledevice/libimobiledevice.h>
 import "C"
-import "unsafe"
+
+import (
+	"unsafe"
+
+	"github.com/pauldotknopf/goidevice/common"
+)
 
 // Device is an iOS device
 type Device interface {
@@ -23,7 +28,7 @@ func New(uuid string) (Device, error) {
 	//C.myprint(cs)
 	//var p unsafe.Pointer
 	var p C.idevice_t
-	err := resultToError(C.idevice_new(&p, uuidC))
+	err := common.ResultToError(C.idevice_new(&p, uuidC))
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +37,7 @@ func New(uuid string) (Device, error) {
 
 func (s *device) UUID() (string, error) {
 	var p *C.char
-	err := resultToError(C.idevice_get_udid(s.p, &p))
+	err := common.ResultToError(C.idevice_get_udid(s.p, &p))
 	var result string
 	if p != nil {
 		result = C.GoString(p)
@@ -42,7 +47,7 @@ func (s *device) UUID() (string, error) {
 }
 
 func (s *device) Close() error {
-	err := resultToError(C.idevice_free(s.p))
+	err := common.ResultToError(C.idevice_free(s.p))
 	if err == nil {
 		s.p = nil
 	}

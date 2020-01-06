@@ -1,0 +1,7 @@
+github.com/ekristen/goidevice v0.0.0-20181115032423-25dc7a6aa71b h1:tEJt18hzbCDDwnwZ+xV4eT1MBDUvYH0Ad+VaxuIen94=
+github.com/mattn/go-pointer v0.0.0-20180825124634-49522c3f3791 h1:PfHMsLQJwoc0ccjK0sam6J0wQo4s8mOuAo2yQGw+T2U=
+github.com/mattn/go-pointer v0.0.0-20180825124634-49522c3f3791/go.mod h1:2zXcozF6qYGgmsG+SeTZz3oAbFLdD3OWqnUbNvJZAlc=
+github.com/olebedev/emitter v0.0.0-20171221095905-68bb25b251f6 h1:m0g4dRVyieASV4C7JXRwBQbEu9hgNwaJvE3/36xqI7A=
+github.com/olebedev/emitter v0.0.0-20171221095905-68bb25b251f6/go.mod h1:eT2/Pcsim3XBjbvldGiJBvvgiqZkAFyiOJJsDKXs/ts=
+github.com/pauldotknopf/goidevice v0.0.0-20181115032423-25dc7a6aa71b h1:8SF0jo0iQyoBrzOeVnf8cuxtFdpGZDjs4mYouCbd7OE=
+github.com/pauldotknopf/goidevice v0.0.0-20181115032423-25dc7a6aa71b/go.mod h1:/o8pgAXHCednrrzLWzpJLqllhu7WfEvq88n9RYJQVNE=
