@@ -29,7 +29,7 @@ func NewClientStartService(device idevice.Device, label string) (Proxy, error) {
 	defer C.free(unsafe.Pointer(labelC))
 
 	var p C.instproxy_client_t
-	err := common.ResultToError(C.instproxy_client_start_service((C.idevice_t)(idevice.GetPointer(device)), &p, labelC))
+	err := resultToError(C.instproxy_client_start_service((C.idevice_t)(idevice.GetPointer(device)), &p, labelC))
 	if err != nil {
 		return nil, err
 	}
@@ -38,12 +38,12 @@ func NewClientStartService(device idevice.Device, label string) (Proxy, error) {
 
 func (s *proxy) Browse(clientOptions plist.PList) (plist.PList, error) {
 	var p C.plist_t
-	err := common.ResultToError(C.instproxy_browse(s.p, (C.plist_t)(plist.GetPointer(clientOptions)), &p))
+	err := resultToError(C.instproxy_browse(s.p, (C.plist_t)(plist.GetPointer(clientOptions)), &p))
 	return plist.FromPointer(unsafe.Pointer(p)), err
 }
 
 func (s *proxy) Close() error {
-	err := common.ResultToError(C.instproxy_client_free(s.p))
+	err := resultToError(C.instproxy_client_free(s.p))
 	if err == nil {
 		s.p = nil
 	}

@@ -4,10 +4,6 @@ import (
 	"errors"
 )
 
-// #cgo pkg-config: libimobiledevice-1.0
-// #include <libimobiledevice/libimobiledevice.h>
-import "C"
-
 var (
 	// ErrInvalidArgs .
 	ErrInvalidArgs = errors.New("invalid args")
@@ -88,91 +84,3 @@ var (
 	// ErrMCChallengeRequired .
 	ErrMCChallengeRequired = errors.New("mc challenge required")
 )
-
-// ResultToError -
-func ResultToError(result C.idevice_error_t) error {
-	switch result {
-	case 0:
-		return nil
-	case -1:
-		return ErrInvalidArgs
-	case -2:
-		return ErrUnknown
-	case -3:
-		return ErrNoDevice
-	case -4:
-		return ErrNotEnoughData
-	case -5:
-		return ErrBadHeader
-	case -6:
-		return ErrSslError
-	case -7:
-		return ErrReceiveTimeout
-	case -8:
-		return ErrMuxError
-	case -9:
-		return ErrNoRunningSession
-	case -10:
-		return ErrInvalidResponse
-	case -11:
-		return ErrMissingKey
-	case -12:
-		return ErrMissingValue
-	case -13:
-		return ErrGetProhibited
-	case -14:
-		return ErrSetProhibited
-	case -15:
-		return ErrRemoveProhibited
-	case -16:
-		return ErrImmutableValue
-	case -17:
-		return ErrPasswordProtected
-	case -18:
-		return ErrUserDeniedPairing
-	case -19:
-		return ErrPairingDialogResponsePending
-	case -20:
-		return ErrMissingHostID
-	case -21:
-		return ErrInvalidHostID
-	case -22:
-		return ErrSessionActive
-	case -23:
-		return ErrSessionInactive
-	case -24:
-		return ErrMissingSessionID
-	case -25:
-		return ErrInvalidSessionID
-	case -26:
-		return ErrMissingService
-	case -27:
-		return ErrInvalidService
-	case -28:
-		return ErrServiceLimit
-	case -29:
-		return ErrMissingPairRecord
-	case -30:
-		return ErrSavePairRecordFailed
-	case -31:
-		return ErrInvalidPairRecord
-	case -32:
-		return ErrInvalidActivationPeriod
-	case -33:
-		return ErrMissingActivationPeriod
-	case -34:
-		return ErrServiceProhibited
-	case -35:
-		return ErrEscrowLocked
-	case -36:
-		return ErrPairingProhibitedOverThisConnection
-	case -37:
-		return ErrFMIPProtected
-	case -38:
-		return ErrMCProtected
-	case -39:
-		return ErrMCChallengeRequired
-	default:
-		return ErrUnknown
-	}
-}

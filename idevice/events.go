@@ -75,7 +75,7 @@ func Subscribe() error {
 	}
 
 	callbackPointer = pointer.Save(&callback{})
-	err := common.ResultToError(C._device_callback(callbackPointer))
+	err := resultToError(C._device_callback(callbackPointer))
 
 	if err == nil {
 		isSubscribed = true
@@ -96,7 +96,7 @@ func Unsubscribe() error {
 		return nil
 	}
 
-	err := common.ResultToError(C.idevice_event_unsubscribe())
+	err := resultToError(C.idevice_event_unsubscribe())
 
 	if err == nil {
 		isSubscribed = false
