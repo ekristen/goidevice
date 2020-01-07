@@ -9,6 +9,7 @@ import (
 	"unsafe"
 
 	"github.com/pauldotknopf/goidevice/idevice"
+	"github.com/pauldotknopf/goidevice/plist"
 )
 
 // Client is a lockdown client
@@ -17,6 +18,7 @@ type Client interface {
 	Pair() error
 	DeviceName() (string, error)
 	Close() error
+	GetValue(string, string) (plist.PList, error)
 }
 
 type client struct {
@@ -81,4 +83,25 @@ func (s *client) Close() error {
 		s.p = nil
 	}
 	return err
+}
+
+func (s *client) GetValue(domain, key string) (plist.PList, error) {
+	var node C.plist_t
+
+	domainC := C.CString(domain)
+	keyC := C.CString(key)
+
+	if domain == "" {
+		domainC = nil
+	}
+	if key == "" {
+		keyC = nil
+	}
+
+	err := resultToError(C.lockdownd_get_value(s.p, domainC, keyC, &node))
+	if err != nil {
+		return nil, err
+	}
+	
+	return plist.FromPointer(unsafe.Pointer(node)), nil
 }
