@@ -16,6 +16,7 @@ import (
 type Client interface {
 	Type() (string, error)
 	Pair() error
+	ValidatePair() error
 	DeviceName() (string, error)
 	Close() error
 	GetValue(string, string) (plist.PList, error)
@@ -66,6 +67,10 @@ func (s *client) Pair() error {
 	return resultToError(C.lockdownd_pair(s.p, nil))
 }
 
+func (s *client) ValidatePair() error {
+	return resultToError(C.lockdownd_validate_pair(s.p, nil))
+}
+
 func (s *client) DeviceName() (string, error) {
 	var p *C.char
 	err := resultToError(C.lockdownd_get_device_name(s.p, &p))
@@ -102,6 +107,6 @@ func (s *client) GetValue(domain, key string) (plist.PList, error) {
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return plist.FromPointer(unsafe.Pointer(node)), nil
 }
